@@ -43,7 +43,7 @@ productsRequest.send();
 "use strict";
 
 // const userInteract = require("./domInteract");
-require("./formatData");
+// require("./formatData");
 // const main = require("./seasonal-sales");
 
 
@@ -56,17 +56,17 @@ module.exports.displayToDom = (prodArr) => {
             <p>"${prod.price}"</p>
         </div>`;
         let productDOMDiv = document.getElementById("productList");
-        productDOMDiv.innerHTML = card;
+        productDOMDiv.innerHTML += card;
     }); 
     /*closing forEach*/
 };
 
 // module.exports = displayToDom;
-},{"./formatData":3}],3:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 "use strict";
 
 let displayPg = require("./domDisplay");
-console.log(displayPg);
+console.log(displayPg.displayToDom);
 
 
 
@@ -88,7 +88,7 @@ module.exports.formatData = (productArray, categoryArray) => {
         return prod;
     });/*closing products map*/
     // console.log("this is being passed to be printed to DOM", prodListForDom);
-    displayPg(prodListForDom);
+    displayPg.displayToDom(prodListForDom);
 }; /*closing function*/
 // console.log(formatData);
 
@@ -96,6 +96,6 @@ module.exports.formatData = (productArray, categoryArray) => {
 },{"./domDisplay":2}],4:[function(require,module,exports){
 "use strict";
 
-let display = require("./domDisplay");
+require("./domDisplay");
 require("./XHR");
 },{"./XHR":1,"./domDisplay":2}]},{},[4]);

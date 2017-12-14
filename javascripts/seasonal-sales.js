@@ -1,4 +1,4 @@
 "use strict";
 
-let display = require("./domDisplay");
+require("./domDisplay");
 require("./XHR");

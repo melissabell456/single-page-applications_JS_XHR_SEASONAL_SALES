@@ -1,7 +1,7 @@
 "use strict";
 
 let displayPg = require("./domDisplay");
-console.log(displayPg);
+console.log(displayPg.displayToDom);
 
 
 
@@ -23,7 +23,7 @@ module.exports.formatData = (productArray, categoryArray) => {
         return prod;
     });/*closing products map*/
     // console.log("this is being passed to be printed to DOM", prodListForDom);
-    displayPg(prodListForDom);
+    displayPg.displayToDom(prodListForDom);
 }; /*closing function*/
 // console.log(formatData);
 

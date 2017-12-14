@@ -1,7 +1,7 @@
 "use strict";
 
 // const userInteract = require("./domInteract");
-require("./formatData");
+// require("./formatData");
 // const main = require("./seasonal-sales");
 
 
@@ -14,7 +14,7 @@ module.exports.displayToDom = (prodArr) => {
             <p>"${prod.price}"</p>
         </div>`;
         let productDOMDiv = document.getElementById("productList");
-        productDOMDiv.innerHTML = card;
+        productDOMDiv.innerHTML += card;
     }); 
     /*closing forEach*/
 };
