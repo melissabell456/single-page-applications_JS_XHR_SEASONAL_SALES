@@ -1,22 +1,18 @@
 "use strict";
 
-// const userInteract = require("./domInteract");
-// require("./formatData");
-// const main = require("./seasonal-sales");
+let getPrice = require("./formatData");
 
 
 module.exports.displayToDom = (prodArr) => {
-    console.log("prodArr");
     prodArr.forEach((prod) => {
         let card = 
-        `<div class = "${prod.discountSeason}"> 
-            <h2> "${prod.name}" </h2>
-            <p>"${prod.price}"</p>
+        `<div> 
+            <h2> "${prod.name} ${prod.discountSeason}" </h2>
+            <p class = "${prod.discountSeason.toLowerCase()} regPrice">regular price: ${prod.price}</p>
+            <h3 class = "${prod.discountSeason.toLowerCase()} salePrice isHidden">sale price: ${prod.discountPrice}</h3>
         </div>`;
         let productDOMDiv = document.getElementById("productList");
         productDOMDiv.innerHTML += card;
     }); 
-    /*closing forEach*/
 };
 
-// module.exports = displayToDom;

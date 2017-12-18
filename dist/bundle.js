@@ -2,8 +2,7 @@
 "use strict";
 
 let format = require("./formatData");
-// console.log(format);
-// console.log("connected to XHR", format.formatData);
+
 
 let productsRequest = new XMLHttpRequest();
 let categoriesRequest = new XMLHttpRequest();
@@ -11,13 +10,10 @@ let productData;
 
 function getProductData () {
     productData = JSON.parse(productsRequest.responseText).products;
-    console.log(productData);
     categoriesRequest.send();
 }
 function getCategoryData () {
     let categoryData  = JSON.parse(categoriesRequest.responseText).categories;
-    console.log(categoryData);
-    console.log("what is format", format);
     format.formatData(productData, categoryData);
 }
 
@@ -38,44 +34,59 @@ categoriesRequest.open("GET", "JSON/categories.json");
 
 productsRequest.send();
 
-// module.exports = {getProductData, getCategoryData};
-},{"./formatData":3}],2:[function(require,module,exports){
+},{"./formatData":4}],2:[function(require,module,exports){
 "use strict";
 
-// const userInteract = require("./domInteract");
-// require("./formatData");
-// const main = require("./seasonal-sales");
+let getPrice = require("./formatData");
 
 
 module.exports.displayToDom = (prodArr) => {
-    console.log("prodArr");
     prodArr.forEach((prod) => {
         let card = 
-        `<div class = "${prod.discountSeason}"> 
-            <h2> "${prod.name}" </h2>
-            <p>"${prod.price}"</p>
+        `<div> 
+            <h2> "${prod.name} ${prod.discountSeason}" </h2>
+            <p class = "${prod.discountSeason.toLowerCase()} regPrice">regular price: ${prod.price}</p>
+            <h3 class = "${prod.discountSeason.toLowerCase()} salePrice isHidden">sale price: ${prod.discountPrice}</h3>
         </div>`;
         let productDOMDiv = document.getElementById("productList");
         productDOMDiv.innerHTML += card;
     }); 
-    /*closing forEach*/
 };
 
-// module.exports = displayToDom;
-},{}],3:[function(require,module,exports){
+
+},{"./formatData":4}],3:[function(require,module,exports){
+"use strict";
+
+let prodInfo = require("./formatData");
+
+let getProductList = () => {
+    let seasonSelected = selectSeason.value;
+    let regPrices = [...document.getElementsByClassName("regPrice")];
+    let salePrices = [...document.getElementsByClassName("salePrice")];
+    let prodsToDiscount = [...document.getElementsByClassName(seasonSelected)];
+    updatePrice(prodsToDiscount, salePrices, regPrices);
+};
+
+
+let updatePrice = (prodsInSeason, allSalePrices, allRegPrices) => {
+    allRegPrices.forEach( prod => { prod.classList.remove("isHidden");});
+    allSalePrices.forEach( prod => { prod.classList.add("isHidden");});
+    prodsInSeason.forEach( prod => { prod.classList.toggle("isHidden");});
+};
+
+
+let selectSeason = document.getElementById("seasons");
+
+selectSeason.addEventListener("change", getProductList);
+
+
+},{"./formatData":4}],4:[function(require,module,exports){
 "use strict";
 
 let displayPg = require("./domDisplay");
-console.log(displayPg.displayToDom);
-
 
 
 module.exports.formatData = (productArray, categoryArray) => {
-    console.log("in the formatData function");
-    console.log(productArray);
-    console.log(categoryArray);
-    // need to add key on products for cat_name & discounted_cost
-    // match up categories.id & products.category_id to assign name
     let prodListForDom = productArray.map((prod) => {
         categoryArray.forEach((cat) => {
             if (prod.category_id === cat.id) {
@@ -83,19 +94,19 @@ module.exports.formatData = (productArray, categoryArray) => {
                 prod.discountPrice = (prod.price - (cat.discount * prod.price)).toFixed(2);
                 prod.discountSeason = cat.season_discount;
             }
-        }); /*closing category forEach*/
-        // console.log(prod);
+        }); 
         return prod;
-    });/*closing products map*/
-    // console.log("this is being passed to be printed to DOM", prodListForDom);
+    });
     displayPg.displayToDom(prodListForDom);
-}; /*closing function*/
-// console.log(formatData);
+    return prodListForDom;
+}; 
 
-// module.exports = formatData ;
-},{"./domDisplay":2}],4:[function(require,module,exports){
+
+
+
+},{"./domDisplay":2}],5:[function(require,module,exports){
 "use strict";
 
-require("./domDisplay");
 require("./XHR");
-},{"./XHR":1,"./domDisplay":2}]},{},[4]);
+require("./domInteract");
+},{"./XHR":1,"./domInteract":3}]},{},[5]);
